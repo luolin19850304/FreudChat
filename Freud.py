@@ -12,9 +12,6 @@
 # a translation table used to convert things you say into things the
 # computer says back, e.g. "I am" --> "you are"
 from __future__ import print_function
-
-import re
-import random
 from nltk.chat import Chat
 
 
@@ -214,7 +211,11 @@ pairs = (
     "How did your father make you feel?",
     "How do you feel about your father?",
     "Does your relationship with your father relate to your feelings today?",
+    "I cannot think of any need in childhood as strong as the need for a father's protection.",
     "Do you have trouble showing affection with your family?")),
+
+  (r'(.*) cat(.*)',
+  ( "Time spent with cats is never wasted.")),
 
   (r'(.*) child(.*)',
   ( "Did you have close friends as a child?",
@@ -237,6 +238,8 @@ pairs = (
   (r'(.*)',
   ( "Please tell me more.",
     "Let's change focus a bit... Tell me about your family.",
+    "Are you in love with your father?",
+    "Are you sexually repressed?",
     "Can you elaborate on that?",
     "Why do you say that %1?",
     "I see.",
@@ -247,6 +250,42 @@ pairs = (
     "How do you feel when you say that?"))
 )
 
+### Freud quotes ###
+
+# # Dreams
+# "Dreams are often most profound when they seem the most crazy."
+# "Dreams are the royal road to the unconscious."
+
+# # Love
+# "One is very crazy when in love."
+
+# # Sex
+# "The sexual life of adult women is a “dark continent” for psychology."
+# "The behavior of a human being in sexual matters is often a prototype for the whole of his other modes of reaction in life."
+
+# # Mother
+# "If a man has been his mother’s undisputed darling he retains throughout life the triumphant feeling, the confidence in success, which not seldom brings actual success along with it."
+
+# # Father
+# "I cannot think of any need in childhood as strong as the need for a father's protection."
+
+# # Religion
+# "Religion is an illusion and it derives its strength from the fact that it falls in with our instinctual desires."
+# "At bottom God is nothing more than an exalted father."
+# "Immorality, no less than morality, has at all times found support in religion."
+
+
+# # Other
+# "From error to error, one discovers the entire truth."
+# "Most people do not really want freedom, because freedom involves responsibility, and most people are frightened of responsibility."
+# "Incidentally, why was it that none of all the pious ever discovered psycho-analysis? Why did it have to wait for a completely godless Jew?"
+# "Two hallmarks of a healthy life are the abilities to love and to work. Each requires imagination."
+# "What progress we are making. In the Middle Ages they would have burned me. Now they are content with burning my books."
+# "The ego is not master in its own house."
+# "Sometimes a cigar is just a cigar."
+# "The virtuous man contents himself with dreaming that which the wicked man does in actual life."
+
+
 Freud_chatbot = Chat(pairs, reflections)
 
 def Freud_chat():
@@ -254,7 +293,7 @@ def Freud_chat():
     print("Talk to the program by typing in plain English, using normal upper-")
     print('and lower-case letters and punctuation.  Enter "quit" when done.')
     print('='*72)
-    print("Hello.  How are you feeling today?")
+    print("Tell me about your mother.")
 
     Freud_chatbot.converse()
 
