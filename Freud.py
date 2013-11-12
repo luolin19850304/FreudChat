@@ -1,3 +1,4 @@
+# coding=UTF-8
 # Natural Language Toolkit: Eliza
 #
 # Copyright (C) 2001-2013 NLTK Project
@@ -13,6 +14,7 @@
 # computer says back, e.g. "I am" --> "you are"
 from __future__ import print_function
 from nltk.chat import Chat
+from util import *
 
 
 reflections = {
