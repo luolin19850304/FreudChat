@@ -1,3 +1,4 @@
+# coding=UTF-8
 # Natural Language Toolkit: Eliza
 #
 # Copyright (C) 2001-2013 NLTK Project
@@ -11,8 +12,9 @@
 
 # a translation table used to convert things you say into things the
 # computer says back, e.g. "I am" --> "you are"
-from __future__ import print_function
-from nltk.chat import Chat
+# from __future__ import print_function
+# from nltk.chat import Chat
+from util import *
 
 
 reflections = {
@@ -53,7 +55,7 @@ pairs = (
   ( "Do you think you should be able to %1?",
     "If you could %1, what would you do?",
     "I don't know -- why can't you %1?",
-    "Have you really tried?")),
+    "Have you ever dreamt about this?")),
 
   (r'I can\'t (.*)',
   ( "How do you know you can't %1?",
@@ -199,24 +201,6 @@ pairs = (
     "What would you do if you got %1?",
     "If you got %1, then what would you do?")),
 
-  (r'(.*) mother(.*)',
-  ( "Tell me more about your mother.",
-    "What was your relationship with your mother like?",
-    "How do you feel about your mother?",
-    "How does this relate to your feelings today?",
-    "Good family relations are important.")),
-
-  (r'(.*) father(.*)',
-  ( "Tell me more about your father.",
-    "How did your father make you feel?",
-    "How do you feel about your father?",
-    "Does your relationship with your father relate to your feelings today?",
-    "I cannot think of any need in childhood as strong as the need for a father's protection.",
-    "Do you have trouble showing affection with your family?")),
-
-  (r'(.*) cat(.*)',
-  ( "Time spent with cats is never wasted.")),
-
   (r'(.*) child(.*)',
   ( "Did you have close friends as a child?",
     "What is your favorite childhood memory?",
@@ -231,12 +215,11 @@ pairs = (
     "Why don't you tell me?")),
 
   (r'quit',
-  ( "Thank you for talking with me.",
-    "Good-bye.",
-    "Thank you, that will be $150.  Have a good day!")),
+  ( "Thank you for talking with me.")),
 
   (r'(.*)',
-  ( "Please tell me more.",
+  ( "Sometimes a cigar is just a cigar.",
+    "Please tell me more.",
     "Let's change focus a bit... Tell me about your family.",
     "Are you in love with your father?",
     "Are you sexually repressed?",
@@ -247,55 +230,71 @@ pairs = (
     "%1.",
     "I see.  And what does that tell you?",
     "How does that make you feel?",
-    "How do you feel when you say that?"))
-)
+    "How do you feel when you say that?",
+    "Are you religious?")),
 
 ### Freud quotes ###
 
-# # Dreams
-# "Dreams are often most profound when they seem the most crazy."
-# "Dreams are the royal road to the unconscious."
+  (r'(.*) dream(.*)',
+  ( "Dreams are often most profound when they seem the most crazy.",
+    "Dreams are the royal road to the unconscious.",
+    "Do you remember any dreams or nightmares from childhood?",
+    "Do you often dream dark thoughts?",
+    "Who was the last person you made love to in a dream?",
+    "The virtuous man contents himself with dreaming that which the wicked man does in actual life.")),
 
-# # Love
-# "One is very crazy when in love."
+  (r'(.*) cat(.*)',
+  ( "Time spent with cats is never wasted.")),
 
-# # Sex
-# "The sexual life of adult women is a “dark continent” for psychology."
-# "The behavior of a human being in sexual matters is often a prototype for the whole of his other modes of reaction in life."
+  (r'(.*) love(.*)',
+  ( "Are you still in love with your father?",
+    "One is very crazy when in love.",
+    "Two hallmarks of a healthy life are the abilities to love and to work. Each requires imagination.")),
 
-# # Mother
-# "If a man has been his mother’s undisputed darling he retains throughout life the triumphant feeling, the confidence in success, which not seldom brings actual success along with it."
+  (r'(.*) sex(.*)',
+  ( "The sexual life of adult women is a 'dark continent' for psychology.",
+    "The behavior of a human being in sexual matters is often a prototype for the whole of his other modes of reaction in life.",
+    "What progress we are making. In the Middle Ages they would have burned us. Now they are content with burning my books.")),
 
-# # Father
-# "I cannot think of any need in childhood as strong as the need for a father's protection."
+  (r'(.*) mother(.*)',
+  ( "Tell me more about your mother.",
+    "What was your relationship with your mother like?",
+    "How do you feel about your mother?",
+    "If a man has been his mother’s undisputed darling he retains throughout life the triumphant feeling, the confidence in success, which not seldom brings actual success along with it.")),
 
-# # Religion
-# "Religion is an illusion and it derives its strength from the fact that it falls in with our instinctual desires."
-# "At bottom God is nothing more than an exalted father."
-# "Immorality, no less than morality, has at all times found support in religion."
+  (r'(.*) father(.*)',
+  ( "Tell me more about your father.",
+    "How did your father make you feel?",
+    "How do you feel about your father?",
+    "Does your relationship with your father relate to your feelings today?",
+    "I cannot think of any need in childhood as strong as the need for a father's protection.",
+    "Do you have trouble showing affection with your family?",
+    "At bottom God is nothing more than an exalted father.")),
 
+  (r'(.*) religion(.*)',
+  ( "Immorality, no less than morality, has at all times found support in religion.",
+    "Religion is an illusion and it derives its strength from the fact that it falls in with our instinctual desires.",
+    "At bottom God is nothing more than an exalted father.",
+    "Incidentally, why was it that none of all the pious ever discovered psycho-analysis? Why did it have to wait for a completely godless Jew?")),
+
+)
 
 # # Other
 # "From error to error, one discovers the entire truth."
 # "Most people do not really want freedom, because freedom involves responsibility, and most people are frightened of responsibility."
-# "Incidentally, why was it that none of all the pious ever discovered psycho-analysis? Why did it have to wait for a completely godless Jew?"
-# "Two hallmarks of a healthy life are the abilities to love and to work. Each requires imagination."
-# "What progress we are making. In the Middle Ages they would have burned me. Now they are content with burning my books."
 # "The ego is not master in its own house."
-# "Sometimes a cigar is just a cigar."
-# "The virtuous man contents himself with dreaming that which the wicked man does in actual life."
 
 
 Freud_chatbot = Chat(pairs, reflections)
 
 def Freud_chat():
-    print("Therapist\n---------")
-    print("Talk to the program by typing in plain English, using normal upper-")
+    print("Freud\n---------")
+    print("Talk to Dr. Freud by typing in plain English, using normal upper-")
     print('and lower-case letters and punctuation.  Enter "quit" when done.')
     print('='*72)
     print("Tell me about your mother.")
 
-    Freud_chatbot.converse()
+    Freud_chatbodt.converse()
 
 def demo():
     Freud_chat()
