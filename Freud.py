@@ -55,7 +55,7 @@ pairs = (
   ( "Do you think you should be able to %1?",
     "If you could %1, what would you do?",
     "I don't know -- why can't you %1?",
-    "Have you really tried?")),
+    "Have you ever dreamt about this?")),
 
   (r'I can\'t (.*)',
   ( "How do you know you can't %1?",
@@ -249,14 +249,17 @@ pairs = (
     "%1.",
     "I see.  And what does that tell you?",
     "How does that make you feel?",
-    "How do you feel when you say that?"))
+    "How do you feel when you say that?")),
+
+  (r'(.*) dream(.*)',
+  ( "Dreams are often most profound when they seem the most crazy.",
+    "Dreams are the royal road to the unconscious.",
+    "Do you remember any dreams or nightmares from childhood?",
+    "Do you often dream dark thoughts?",
+    "Who was the last person you made love to in a dream?")),
 )
 
 ### Freud quotes ###
-
-# # Dreams
-# "Dreams are often most profound when they seem the most crazy."
-# "Dreams are the royal road to the unconscious."
 
 # # Love
 # "One is very crazy when in love."
@@ -291,8 +294,8 @@ pairs = (
 Freud_chatbot = Chat(pairs, reflections)
 
 def Freud_chat():
-    print("Therapist\n---------")
-    print("Talk to the program by typing in plain English, using normal upper-")
+    print("Freud\n---------")
+    print("Talk to Dr. Freud by typing in plain English, using normal upper-")
     print('and lower-case letters and punctuation.  Enter "quit" when done.')
     print('='*72)
     print("Tell me about your mother.")
