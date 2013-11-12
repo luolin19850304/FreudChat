@@ -60,11 +60,91 @@ class Chat(object):
 		                    noun.append((temp[0][i][0], str))
 		    return noun
 
+		def prp(str):
+			temp=[]
+			prp= ["PRP","PRP$"]
+			sentences = nltk.sent_tokenize(str) 
+			sentences = [nltk.word_tokenize(sent) for sent in sentences] 
+			[temp.append(nltk.pos_tag(sent)) for sent in sentences]
+			for i in range(len(temp[0])):
+			    if temp[0][i][1] in prp:
+			        pr = "Are you talking about " + (noun[random.randint(1,len(noun))][0])
+			    else:
+			    	pr="NA"
+			return pr
+
+
+		def mo(str):
+			print str
+			m=["mother","ma", "mom", "madre", "mamma", "maama", "mama"]
+			temp=[]
+			sentences = nltk.sent_tokenize(str) 
+			sentences = [nltk.word_tokenize(sent) for sent in sentences] 
+			[temp.append(nltk.pos_tag(sent)) for sent in sentences]
+			for i in range(len(temp[0])):
+			    if temp[0][i][0] in m:
+			    	return True
+		
+		def fa(str):
+			f=["father","dad", "papa", "pop", "pappa", "daddy"]
+			temp=[]
+			sentences = nltk.sent_tokenize(str) 
+			sentences = [nltk.word_tokenize(sent) for sent in sentences] 
+			[temp.append(nltk.pos_tag(sent)) for sent in sentences]
+			for i in range(len(temp[0])):
+			    if temp[0][i][0] in f:
+			    	return True
+
+		def fr(str):
+			print str
+			f=["friend","bro","bff","amigo","dude","bestie", "best friend"]
+			temp=[]
+			sentences = nltk.sent_tokenize(str) 
+			sentences = [nltk.word_tokenize(sent) for sent in sentences] 
+			[temp.append(nltk.pos_tag(sent)) for sent in sentences]
+			for i in range(len(temp[0])):
+			    if temp[0][i][0] in f:
+			    	return True
+
 		ip_temp=[]
 		for i in range(len(ip)):
 		    ip_temp.append(ip[i][0])
 		if str == ip_temp[-1]:
 			return "Please do not repeat yourself."
+
+		if fa(str):
+			for (pattern, response) in self._pairs: 
+	 			match = pattern.match("father") 
+				if match: 
+					resp = random.choice(response)    # pick a random response 
+	 				resp = self._wildcards(resp, match) # process wildcards 
+					if resp[-2:] == '?.': resp = resp[:-2] + '.' 
+					if resp[-2:] == '??': resp = resp[:-2] + '?'
+					ip.append((str, resp)) 	
+					return resp, ip, NN(str), prp(str)
+
+		if mo(str):
+			for (pattern, response) in self._pairs: 
+	 			match = pattern.match("mother") 
+				if match: 
+					resp = random.choice(response)    # pick a random response 
+	 				resp = self._wildcards(resp, match) # process wildcards 
+					if resp[-2:] == '?.': resp = resp[:-2] + '.' 
+					if resp[-2:] == '??': resp = resp[:-2] + '?'
+					ip.append((str, resp)) 	
+					return resp, ip, NN(str), prp(str)
+
+		if fr(str):
+			for (pattern, response) in self._pairs: 
+	 			match = pattern.match("friend") 
+				if match: 
+					resp = random.choice(response)    # pick a random response 
+	 				resp = self._wildcards(resp, match) # process wildcards 
+					if resp[-2:] == '?.': resp = resp[:-2] + '.' 
+					if resp[-2:] == '??': resp = resp[:-2] + '?'
+					ip.append((str, resp)) 	
+					return resp, ip, NN(str), prp(str)
+
 		else:
 			for (pattern, response) in self._pairs: 
 	 			match = pattern.match(str) 
@@ -75,7 +155,7 @@ class Chat(object):
 					if resp[-2:] == '?.': resp = resp[:-2] + '.' 
 					if resp[-2:] == '??': resp = resp[:-2] + '?'
 					ip.append((str, resp)) 	
-					return resp, ip, NN(str)
+					return resp, ip, NN(str), prp(str)
 
 
 
