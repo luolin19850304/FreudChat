@@ -23,14 +23,15 @@ reflections = {
 }
 ip=["NA",]
 noun=[]
+inp=[]
 class Chat(object): 
 	def __init__(self, pairs, reflections={}):
 		self._pairs = [(re.compile(x, re.IGNORECASE),y) for (x,y) in pairs] 
  		self._reflections = reflections
 
- 	def _substitute(self, str):
+ 	def _substitute(self, x):
  		words = "" 
-		for word in string.split(string.lower(str)): 
+		for word in string.split(string.lower(x)): 
 			if self._reflections.has_key(word): 
 				word = self._reflections[word] 
 			words += ' ' + word 
@@ -44,38 +45,147 @@ class Chat(object):
 			pos = string.find(response,'%') 
 		return response 
 
-	def respond(self, str):
-		def NN(str):
+	def respond(self, x):
+		def NN(x):
 		    temp=[]
 		    N=['NN', 'NNP']
 		    def ie_preprocess(document):
 		        sentences = nltk.sent_tokenize(document) 
 		        sentences = [nltk.word_tokenize(sent) for sent in sentences] 
 		        sentences = [temp.append(nltk.pos_tag(sent)) for sent in sentences] 
-		    ie_preprocess(str)
+		    ie_preprocess(x)
 		    for i in range(len(temp[0])):
 		        if (temp[0][i][1]) in N:
 		            if (temp[0][i][0]) not in noun:
 		                if (temp[0][i][1]) not in noun:
-		                    noun.append((temp[0][i][0], str))
+		                    noun.append((temp[0][i][0], x))
 		    return noun
+
+		def prp(x):
+			temp=[]
+			pr= ["he","she","his","her","himself","herself","it","itself","they","them","themselves"]
+			sentences = nltk.sent_tokenize(x) 
+			sentences = [nltk.word_tokenize(sent) for sent in sentences] 
+			[temp.append(nltk.pos_tag(sent)) for sent in sentences]
+			for i in range(len(temp)):
+			    # print len(temp)
+			    if temp[0][i][0] in pr:
+			    	if len(noun)>0:
+			    		# print "Are you talking about " + str((noun[-1][0]))
+			    		pr = "Are you talking about " + str((noun[-1][0]))
+			    		print pr
+			    	else:
+			    		# print "Whom you are talking about"
+			    		pr = "Whom you are talking about"
+			    		print pr
+					return True
+			    else:
+			    	return None
+			# return pr
+
+
+		def mo(x):
+			m=["mother","ma", "mom", "madre", "mamma", "maama", "mama"]
+			temp=[]
+			sentences = nltk.sent_tokenize(x) 
+			sentences = [nltk.word_tokenize(sent) for sent in sentences] 
+			[temp.append(nltk.pos_tag(sent)) for sent in sentences]
+			for i in range(len(temp[0])):
+			    if temp[0][i][0] in m:
+			    	return True
+		
+		def fa(x):
+			f=["father","dad", "papa", "pop", "pappa", "daddy"]
+			temp=[]
+			sentences = nltk.sent_tokenize(x) 
+			sentences = [nltk.word_tokenize(sent) for sent in sentences] 
+			[temp.append(nltk.pos_tag(sent)) for sent in sentences]
+			for i in range(len(temp[0])):
+			    if temp[0][i][0] in f:
+			    	return True
+
+		def fr(x):
+			f=["friend","bro","bff","amigo","dude","bestie", "best friend"]
+			temp=[]
+			sentences = nltk.sent_tokenize(x) 
+			sentences = [nltk.word_tokenize(sent) for sent in sentences] 
+			[temp.append(nltk.pos_tag(sent)) for sent in sentences]
+			for i in range(len(temp[0])):
+			    if temp[0][i][0] in f:
+			    	return True
 
 		ip_temp=[]
 		for i in range(len(ip)):
 		    ip_temp.append(ip[i][0])
-		if str == ip_temp[-1]:
+		if x == ip_temp[-1]:
 			return "Please do not repeat yourself."
-		else:
+
+		if fa(x):
 			for (pattern, response) in self._pairs: 
-	 			match = pattern.match(str) 
+	 			match = pattern.match("father") 
 				if match: 
 					resp = random.choice(response)    # pick a random response 
 	 				resp = self._wildcards(resp, match) # process wildcards 
-					
 					if resp[-2:] == '?.': resp = resp[:-2] + '.' 
 					if resp[-2:] == '??': resp = resp[:-2] + '?'
-					ip.append((str, resp)) 	
-					return resp, ip, NN(str)
+					ip.append((x, resp)) 	
+					return resp
+
+		if mo(x):
+			for (pattern, response) in self._pairs: 
+	 			match = pattern.match("mother") 
+				if match: 
+					resp = random.choice(response)    # pick a random response 
+	 				resp = self._wildcards(resp, match) # process wildcards 
+					if resp[-2:] == '?.': resp = resp[:-2] + '.' 
+					if resp[-2:] == '??': resp = resp[:-2] + '?'
+					ip.append((x, resp)) 	
+					return resp
+
+		if fr(x):
+			for (pattern, response) in self._pairs: 
+	 			match = pattern.match("friend") 
+				if match: 
+					resp = random.choice(response)    # pick a random response 
+	 				resp = self._wildcards(resp, match) # process wildcards 
+					if resp[-2:] == '?.': resp = resp[:-2] + '.' 
+					if resp[-2:] == '??': resp = resp[:-2] + '?'
+					ip.append((x, resp)) 	
+					return resp
+
+		if prp(x)== True:
+			prp(x)
+
+
+
+		else:
+			for (pattern, response) in self._pairs: 
+	 			match = pattern.match(x) 
+				if match:
+					if x in inp:
+						for i in range(len(ip)):
+							if x==ip[i][0]:
+								# print "yes"
+								tmp=[]
+								temp=str(response).split(",")
+								for j in range(len(temp)):
+									if temp[j][2:-1]!=ip[i][1]:
+										tmp.append(temp[j])
+								resp=random.choice(tmp)
+
+					else:
+						resp = random.choice(response)
+					# print resp    # pick a random response 
+	 				resp = self._wildcards(resp, match) # process wildcards 
+					
+					# if resp[-2:] == '?.': resp = resp[:-2] + '.' 
+					# if resp[-2:] == '??': resp = resp[:-2] + '?'
+					ip.append((x, resp))
+					NN(x)
+					if x not in inp:
+						inp.append(x)
+						
+					return resp
 
 
 
